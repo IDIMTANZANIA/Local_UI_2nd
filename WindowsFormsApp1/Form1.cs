@@ -44,8 +44,8 @@ namespace WindowsFormsApp1
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             //                      
-            //   button12_Click(null, null);
-            //   button2_Click(null, null);
+              button12_Click(null, null);
+              button2_Click(null, null);
             //生产必要的文件//
 
             if (!System.IO.Directory.Exists(path_data))

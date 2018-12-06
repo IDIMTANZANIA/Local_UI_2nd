@@ -158,6 +158,7 @@
             this.comboBox9.Name = "comboBox9";
             this.comboBox9.Size = new System.Drawing.Size(97, 25);
             this.comboBox9.TabIndex = 32;
+            this.comboBox9.Text = "COM4";
             // 
             // progressBar6
             // 
@@ -235,6 +236,7 @@
             this.comboBox13.Name = "comboBox13";
             this.comboBox13.Size = new System.Drawing.Size(97, 25);
             this.comboBox13.TabIndex = 20;
+            this.comboBox13.Text = "COM5";
             // 
             // button3
             // 
