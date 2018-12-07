@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
         string path_ch1_others = "C:\\IDIM\\channel1_others_1.txt";
         string path_ch2_others = "C:\\IDIM\\channel2_others.txt";
         int chang_1 = 447;
-        int chang_2 = 343;
+        int chang_2 = 447;
         public Form1()
         {
             InitializeComponent();
@@ -35,12 +35,13 @@ namespace WindowsFormsApp1
             COM1.DataReceived += new SerialDataReceivedEventHandler(COM1_DataReceived);    
             COM2.DataReceived += new SerialDataReceivedEventHandler(COM2_DataReceived);
             // 背景自动执行
+            /*
             System.Timers.Timer pTimer = new System.Timers.Timer(5000);//每隔5秒执行一次，没用winfrom自带的
             pTimer.Elapsed += pTimer_Elapsed;//委托，要执行的方法
             pTimer.AutoReset = true;//获取该定时器自动执行
             pTimer.Enabled = true;//这个一定要写，要不然定时器不会执行的
             Control.CheckForIllegalCrossThreadCalls = false;//这个不太懂，有待研究
-
+            */
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             //                      
@@ -84,12 +85,13 @@ namespace WindowsFormsApp1
         }
 
         // automatic running
+        /*
         private void pTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
           //  button9_Click(null, null);
          //   button5_Click(null, null);
         }
-
+        */
         // Serial communication options
         private void button2_Click(object sender, EventArgs e)
         {
