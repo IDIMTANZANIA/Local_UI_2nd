@@ -236,7 +236,7 @@
             this.comboBox13.Name = "comboBox13";
             this.comboBox13.Size = new System.Drawing.Size(97, 25);
             this.comboBox13.TabIndex = 20;
-            this.comboBox13.Text = "COM5";
+            this.comboBox13.Text = "COM7";
             // 
             // button3
             // 
