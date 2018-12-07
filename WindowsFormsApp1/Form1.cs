@@ -21,8 +21,7 @@ namespace WindowsFormsApp1
         string path_ch2 = "C:\\IDIM\\channel2.txt";
         string path_ch1_others = "C:\\IDIM\\channel1_others_1.txt";
         string path_ch2_others = "C:\\IDIM\\channel2_others.txt";
-        int chang_1 = 447;
-        int chang_2 = 447;
+        int chang_1 = 395;
         public Form1()
         {
             InitializeComponent();
@@ -296,7 +295,7 @@ namespace WindowsFormsApp1
             int[,] on_ff_warning = new int[2, 34];
             textBox2.Text += from_bs_2_t;
             textBox2.Text += "\r\n";
-            if (from_bs_2_t.StartsWith("data") && (changdu >= chang_2) && (from_bs_2_t.EndsWith("~")))
+            if (from_bs_2_t.StartsWith("data") && (changdu >= chang_1) && (from_bs_2_t.EndsWith("~")))
             {
                 int tou = from_bs_2_t.IndexOf("data");
                 int wei = from_bs_2_t.IndexOf("~");
