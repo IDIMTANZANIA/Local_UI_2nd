@@ -36,6 +36,7 @@ namespace WindowsFormsApp1
             COM1.DataReceived += new SerialDataReceivedEventHandler(COM1_DataReceived);    
             COM2.DataReceived += new SerialDataReceivedEventHandler(COM2_DataReceived);
             COM3.DataReceived += new SerialDataReceivedEventHandler(COM3_DataReceived);
+     //       Control.CheckForIllegalCrossThreadCalls = false;
             // 背景自动执行
             /*
             System.Timers.Timer pTimer = new System.Timers.Timer(5000);//每隔5秒执行一次，没用winfrom自带的
@@ -194,11 +195,6 @@ namespace WindowsFormsApp1
 
         private void showdata(string from_bs_1_t)
         {
-
-       //     FileStream fss = new FileStream(path_ch1_others, FileMode.Append, FileAccess.Write);
-       //     StreamWriter sww = new StreamWriter(fss);
-       //     FileStream fso = new FileStream(path_ch1, FileMode.Append, FileAccess.Write);
-         //   StreamWriter swo = new StreamWriter(fso);
             int changdu = from_bs_1_t.Length;
         //   textBox1.Text += changdu;
         //    textBox1.Text += "\r\n";
@@ -212,11 +208,8 @@ namespace WindowsFormsApp1
             h = dt.Hour;      //
             n = dt.Minute;    // tring logging;
             int[,] on_ff_warning = new int[2,34];
-            textBox1.Text += from_bs_1_t;
-            textBox1.Text += "\r\n";
-            //   textBox1.Text += "-";
-            //   textBox1.Text += changdu;
-            //     textBox1.Text += "\r\n";
+            textBox1.Invoke(new Action(() => textBox1.Text += from_bs_1_t+"\r\n"));
+
             //     if (from_bs_1_t.Contains("data")&&(changdu>=chang_1)&&(from_bs_1_t.Contains("~")))
             if (from_bs_1_t.StartsWith("data") && (changdu >= chang_1) && (from_bs_1_t.EndsWith("~")))
                 {              
@@ -224,8 +217,9 @@ namespace WindowsFormsApp1
                 int wei = from_bs_1_t.IndexOf("~");
                 from_bs_1_t = from_bs_1_t.Substring(tou, wei);
                 from_bs_1_t = System.Text.RegularExpressions.Regex.Replace(from_bs_1_t, "[data\r\n]", "");
-                textBox1.Text += from_bs_1_t;
-                textBox1.Text += "\r\n";
+
+                textBox1.Invoke(new Action(() => textBox1.Text += from_bs_1_t + "\r\n"));
+
                 using (FileStream fso = new FileStream(path_ch1, FileMode.Append, FileAccess.Write, FileShare.Read))
                 {
                     using (StreamWriter swo = new StreamWriter(fso))
@@ -250,8 +244,6 @@ namespace WindowsFormsApp1
                 string[] zhongjian = from_bs_1_t.Split('/');
                 string warnning="";
                 string off_on = "";
-                textBox9.Text = "";
-                textBox6.Text = "";
                 for (int i=2;i<zhongjian.Length;i++)
                 {
                     string[] zhongjian_2 = zhongjian[i].Split(',');
@@ -276,9 +268,8 @@ namespace WindowsFormsApp1
                     }
                    
                 }
-                textBox9.Text = warnning + "No signal!";
-
-                textBox6.Text = off_on + "_off!";
+                textBox9.Invoke(new Action(() => textBox9.Text = warnning + "No signal!"));
+                textBox6.Invoke(new Action(() => textBox6.Text = off_on + "_off!"));
             }
             else
             {
@@ -291,33 +282,19 @@ namespace WindowsFormsApp1
                         sww.Close();
                     }
                     fss.Close();
-                }
-                   
- 
-
+                }                  
             }
-            if (textBox1.Text.Length>3000)
+            if (textBox1.Text.Length>2000)
             {
-                textBox1.Clear();
-            }
-            /*
-            sww.Close();
-            fss.Close();
-            sww.Dispose();
-            fss.Dispose();            
-            swo.Close();
-            fso.Close();
-            swo.Dispose();
-            fso.Dispose();
-            */
+                textBox1.Invoke(new Action(() => textBox1.Clear()));
+            }            
             GC.Collect();
         }
         private void showdata_2(string from_bs_2_t)
         {
                        
             int changdu = from_bs_2_t.Length;
-         //     textBox2.Text += changdu;
-         //     textBox2.Text += "\r\n";
+        //    textBox2.Invoke(new Action(() => textBox2.Text += changdu + "\r\n"));
             DateTime dt = DateTime.Now;  //
             int y = 0; int yue = 0;
             int d = 0; int h = 0;
@@ -328,15 +305,15 @@ namespace WindowsFormsApp1
             h = dt.Hour;      //
             n = dt.Minute;    // tring logging;
             int[,] on_ff_warning = new int[2, 34];
-            textBox2.Text += from_bs_2_t;
-            textBox2.Text += "\r\n";
+            textBox2.Invoke(new Action(() => textBox2.Text += from_bs_2_t + "\r\n"));
+
             if (from_bs_2_t.StartsWith("data") && (changdu >= chang_1) && (from_bs_2_t.EndsWith("~")))
             {
                 int tou = from_bs_2_t.IndexOf("data");
                 int wei = from_bs_2_t.IndexOf("~");
                 from_bs_2_t = from_bs_2_t.Substring(tou, wei);
                 from_bs_2_t = System.Text.RegularExpressions.Regex.Replace(from_bs_2_t, "[data\r\n]", "");
-                textBox2.Text += from_bs_2_t;
+                textBox2.Invoke(new Action(() => textBox2.Text += from_bs_2_t + "\r\n"));
                 using (FileStream fso = new FileStream(path_ch2, FileMode.Append, FileAccess.Write))
                 {
                     using (StreamWriter swo = new StreamWriter(fso))
@@ -360,8 +337,7 @@ namespace WindowsFormsApp1
                 string[] zhongjian = from_bs_2_t.Split('/');
                 string warnning = "";
                 string off_on = "";
-                textBox10.Text = "";
-                textBox4.Text = "";
+
                 for (int i = 2; i < zhongjian.Length; i++)
                 {
                     string[] zhongjian_2 = zhongjian[i].Split(',');
@@ -382,12 +358,10 @@ namespace WindowsFormsApp1
                                 warnning += a + 1 + ";";
                             }
                         }
-
                     }
-
                 }
-                textBox10.Text = warnning + "No signal!";
-                textBox4.Text = off_on + "_off!";
+                textBox10.Invoke(new Action(() => textBox10.Text = warnning + "No signal!"));
+                textBox4.Invoke(new Action(() => textBox4.Text = off_on + "_off!"));
             }
             else
             {
@@ -400,18 +374,16 @@ namespace WindowsFormsApp1
                         sww.Close();
                     }
                     fss.Close();
-                }
-                             
+                }                          
             }
-            if (textBox2.Text.Length > 3000)
+            if (textBox2.Text.Length > 2000)
             {
-                textBox2.Clear();
+                textBox2.Invoke(new Action(() => textBox2.Clear()));
             }
             GC.Collect();
         }
         private void showdata_3(string from_bs_3_t)
-        {
-         
+        {        
             DateTime dt = DateTime.Now;  //
             int y = 0; int yue = 0;
             int d = 0; int h = 0;
@@ -421,27 +393,23 @@ namespace WindowsFormsApp1
             d = dt.Day;       //
             h = dt.Hour;      //
             n = dt.Minute;    // tring logging;
-            textBox11.Text += from_bs_3_t;
-            textBox11.Text += "\r\n";
-                using (FileStream fso = new FileStream(path_ch2, FileMode.Append, FileAccess.Write))
+            textBox11.Invoke(new Action(() => textBox11.Text += from_bs_3_t));
+
+            using (FileStream fso = new FileStream(environment, FileMode.Append, FileAccess.Write))
                 {
                     using (StreamWriter swo = new StreamWriter(fso))
                     {
-                        swo.Write(y);   //
-                        swo.Write("-");
-                        swo.Write(yue);
-                        swo.Write("-");
-                        swo.Write(d);
-                        swo.Write("-");
-                        swo.Write(h);
-                        swo.Write(':');
-                        swo.Write(n);
-                        swo.Write('-');
-                        swo.WriteLine(from_bs_3_t);
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_3_t;
+                        swo.WriteLine(writing);
                         swo.Close();
                     }
                     fso.Close();
-                }      
+                }
+            if (textBox11.Text.Length > 2000)
+            {
+                textBox11.Invoke(new Action(() => textBox11.Clear()));            
+            }
+
             GC.Collect();
         }
 
@@ -522,7 +490,11 @@ namespace WindowsFormsApp1
             textBox2.ScrollToCaret();
         }
 
-     
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+            textBox11.SelectionStart = textBox11.Text.Length;
+            textBox11.ScrollToCaret();
+        }
     }
 
 }

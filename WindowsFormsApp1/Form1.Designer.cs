@@ -78,13 +78,13 @@
             this.kill_all = new System.Windows.Forms.Button();
             this.COM2 = new System.IO.Ports.SerialPort(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.COM3 = new System.IO.Ports.SerialPort(this.components);
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.COM3 = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -651,7 +651,7 @@
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(78, 25);
             this.comboBox5.TabIndex = 37;
-            this.comboBox5.Text = "COM1";
+            this.comboBox5.Text = "COM13";
             // 
             // textBox11
             // 
@@ -662,6 +662,7 @@
             this.textBox11.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox11.Size = new System.Drawing.Size(245, 259);
             this.textBox11.TabIndex = 11;
+            this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
             // 
             // label13
             // 
@@ -754,8 +755,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ProgressBar progressBar2;
-        private System.IO.Ports.SerialPort COM3;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textBox11;
+        private System.IO.Ports.SerialPort COM3;
     }
 }
