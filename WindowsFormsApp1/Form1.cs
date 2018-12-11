@@ -21,6 +21,7 @@ namespace WindowsFormsApp1
         string path_ch2 = "C:\\IDIM\\channel2.txt";
         string path_ch1_others = "C:\\IDIM\\channel1_others_1.txt";
         string path_ch2_others = "C:\\IDIM\\channel2_others.txt";
+        string environment = "C:\\IDIM\\environment.txt";
         int chang_1 = 395;
         public Form1()
         {
@@ -31,8 +32,10 @@ namespace WindowsFormsApp1
             String[] input = SerialPort.GetPortNames();
             comboBox13.Items.AddRange(input);          
             comboBox9.Items.AddRange(input);
+            comboBox5.Items.AddRange(input);
             COM1.DataReceived += new SerialDataReceivedEventHandler(COM1_DataReceived);    
             COM2.DataReceived += new SerialDataReceivedEventHandler(COM2_DataReceived);
+            COM3.DataReceived += new SerialDataReceivedEventHandler(COM3_DataReceived);
             // 背景自动执行
             /*
             System.Timers.Timer pTimer = new System.Timers.Timer(5000);//每隔5秒执行一次，没用winfrom自带的
@@ -46,13 +49,12 @@ namespace WindowsFormsApp1
             //                      
               button12_Click(null, null);
               button2_Click(null, null);
+              button4_Click(null, null);
             //生产必要的文件//
-
             if (!System.IO.Directory.Exists(path_data))
             {
                 System.IO.Directory.CreateDirectory(path_data);//不存在就创建目录 
             }
-
             if (!File.Exists(@path_ch2))
             {
                 File.Create(@path_ch2).Close(); //创建该文件}
@@ -61,17 +63,18 @@ namespace WindowsFormsApp1
             {
                 File.Create(path_ch2_others).Close(); //创建该文件}
             }
-
             if (!File.Exists(@path_ch1))
             {
                 File.Create(@path_ch1).Close(); //创建该文件}
             }
-
             if (!File.Exists(path_ch1_others))
             {
                 File.Create(path_ch1_others).Close(); //创建该文件}
             }
-
+            if (!File.Exists(environment))
+            {
+                File.Create(environment).Close(); //创建该文件}
+            }
         }
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
@@ -127,6 +130,23 @@ namespace WindowsFormsApp1
             }
 
         }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                COM3.PortName = comboBox5.Text;
+                COM3.BaudRate = 9600;
+                COM3.DataBits = 8;
+                COM3.StopBits = (StopBits)Enum.Parse(typeof(StopBits), "One");
+                COM3.Parity = (Parity)Enum.Parse(typeof(Parity), "None");
+                COM3.Open();
+                progressBar2.Value = 100;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         //关闭seriel通信//
         private void button3_Click(object sender, EventArgs e)
         {
@@ -144,6 +164,14 @@ namespace WindowsFormsApp1
                 progressBar6.Value = 0;
             }
         }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (COM3.IsOpen)
+            {
+                COM3.Close();
+                progressBar2.Value = 0;
+            }
+        }
         //Monitoring 
         private void COM1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -157,6 +185,13 @@ namespace WindowsFormsApp1
            string from_bs_2_t = COM2.ReadExisting();         
            showdata_2(from_bs_2_t);
         }
+        private void COM3_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            Thread.Sleep(100);  // important
+            string from_bs_3_t = COM3.ReadExisting();
+            showdata_3(from_bs_3_t);
+        }
+
         private void showdata(string from_bs_1_t)
         {
 
@@ -372,16 +407,41 @@ namespace WindowsFormsApp1
             {
                 textBox2.Clear();
             }
-            /*
-            sww.Close();
-            fss.Close();
-            sww.Dispose();
-            fss.Dispose();
-            swo.Close();
-            fso.Close();
-            swo.Dispose();
-            fso.Dispose();
-            */
+            GC.Collect();
+        }
+        private void showdata_3(string from_bs_3_t)
+        {
+         
+            DateTime dt = DateTime.Now;  //
+            int y = 0; int yue = 0;
+            int d = 0; int h = 0;
+            int n = 0;
+            y = dt.Year;      //
+            yue = dt.Month;     //
+            d = dt.Day;       //
+            h = dt.Hour;      //
+            n = dt.Minute;    // tring logging;
+            textBox11.Text += from_bs_3_t;
+            textBox11.Text += "\r\n";
+                using (FileStream fso = new FileStream(path_ch2, FileMode.Append, FileAccess.Write))
+                {
+                    using (StreamWriter swo = new StreamWriter(fso))
+                    {
+                        swo.Write(y);   //
+                        swo.Write("-");
+                        swo.Write(yue);
+                        swo.Write("-");
+                        swo.Write(d);
+                        swo.Write("-");
+                        swo.Write(h);
+                        swo.Write(':');
+                        swo.Write(n);
+                        swo.Write('-');
+                        swo.WriteLine(from_bs_3_t);
+                        swo.Close();
+                    }
+                    fso.Close();
+                }      
             GC.Collect();
         }
 
@@ -451,20 +511,18 @@ namespace WindowsFormsApp1
                 textBox7.Text = "";
             }
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.SelectionStart = textBox1.Text.Length;
             textBox1.ScrollToCaret();
         }
-
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             textBox2.SelectionStart = textBox2.Text.Length;
             textBox2.ScrollToCaret();
         }
 
-
+     
     }
 
 }
