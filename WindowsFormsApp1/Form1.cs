@@ -36,7 +36,7 @@ namespace WindowsFormsApp1
             COM1.DataReceived += new SerialDataReceivedEventHandler(COM1_DataReceived);    
             COM2.DataReceived += new SerialDataReceivedEventHandler(COM2_DataReceived);
             COM3.DataReceived += new SerialDataReceivedEventHandler(COM3_DataReceived);
-     //       Control.CheckForIllegalCrossThreadCalls = false;
+            Control.CheckForIllegalCrossThreadCalls = false;
             // 背景自动执行
             /*
             System.Timers.Timer pTimer = new System.Timers.Timer(5000);//每隔5秒执行一次，没用winfrom自带的
@@ -196,8 +196,10 @@ namespace WindowsFormsApp1
         private void showdata(string from_bs_1_t)
         {
             int changdu = from_bs_1_t.Length;
-        //   textBox1.Text += changdu;
-        //    textBox1.Text += "\r\n";
+            //   textBox1.Text += changdu;
+            //    textBox1.Text += "\r\n";
+            textBox6.Invoke(new Action(() => textBox6.Clear()));
+            textBox9.Invoke(new Action(() => textBox9.Clear()));
             DateTime dt = DateTime.Now;  //
             int y = 0; int yue = 0;
             int d = 0; int h = 0;
@@ -254,14 +256,16 @@ namespace WindowsFormsApp1
                         {
                             if (on_ff_warning[i - 2, a] == 1)//都是闭合状态
                             {
-                                off_on+= a + 1 + ";";
+                                off_on += (a + 1);
+                                off_on += ";";
                             }
                         }
                         if (i == 3)
                         {
                             if (on_ff_warning[i - 2, a] == 0)//没有接收到信号
                             {
-                                warnning += a + 1 + ";";
+                                warnning += (a + 1);
+                                warnning += ";";
                             }
                         }
 
@@ -294,7 +298,9 @@ namespace WindowsFormsApp1
         {
                        
             int changdu = from_bs_2_t.Length;
-        //    textBox2.Invoke(new Action(() => textBox2.Text += changdu + "\r\n"));
+            //    textBox2.Invoke(new Action(() => textBox2.Text += changdu + "\r\n"));
+            textBox4.Invoke(new Action(() => textBox4.Clear()));
+            textBox10.Invoke(new Action(() => textBox10.Clear()));
             DateTime dt = DateTime.Now;  //
             int y = 0; int yue = 0;
             int d = 0; int h = 0;
@@ -348,14 +354,16 @@ namespace WindowsFormsApp1
                         {
                             if (on_ff_warning[i - 2, a] == 1)//都是闭合状态
                             {
-                                off_on += a + 1 + ";";
+                                off_on += (a + 1);
+                                off_on += ";";
                             }
                         }
                         if (i == 3)
                         {
                             if (on_ff_warning[i - 2, a] == 0)//没有接收到信号
                             {
-                                warnning += a + 1 + ";";
+                                warnning += (a + 1);
+                                warnning += ";";
                             }
                         }
                     }
