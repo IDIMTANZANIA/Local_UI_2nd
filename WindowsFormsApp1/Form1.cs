@@ -242,38 +242,46 @@ namespace WindowsFormsApp1
                     }
                        
                   fso.Close();
-                }                                                  
-                string[] zhongjian = from_bs_1_t.Split('/');
-                string warnning="";
-                string off_on = "";
-                for (int i=2;i<zhongjian.Length;i++)
+                }
+                try
                 {
-                    string[] zhongjian_2 = zhongjian[i].Split(',');
-                    for (int a=0;a<zhongjian_2.Length;a++)
+                    string[] zhongjian = from_bs_1_t.Split('/');
+                    string warnning = "";
+                    string off_on = "";
+                    for (int i = 2; i < zhongjian.Length; i++)
                     {
-                        on_ff_warning[i - 2, a] = Convert.ToInt32(zhongjian_2[a]);
-                        if (i==2)
+                        string[] zhongjian_2 = zhongjian[i].Split(',');
+                        for (int a = 0; a < zhongjian_2.Length; a++)
                         {
-                            if (on_ff_warning[i - 2, a] == 1)//都是闭合状态
+                            on_ff_warning[i - 2, a] = Convert.ToInt32(zhongjian_2[a]);
+                            if (i == 2)
                             {
-                                off_on += (a + 1);
-                                off_on += ";";
+                                if (on_ff_warning[i - 2, a] == 1)//都是闭合状态
+                                {
+                                    off_on += (a + 1);
+                                    off_on += ";";
+                                }
                             }
-                        }
-                        if (i == 3)
-                        {
-                            if (on_ff_warning[i - 2, a] == 0)//没有接收到信号
+                            if (i == 3)
                             {
-                                warnning += (a + 1);
-                                warnning += ";";
+                                if (on_ff_warning[i - 2, a] == 0)//没有接收到信号
+                                {
+                                    warnning += (a + 1);
+                                    warnning += ";";
+                                }
                             }
+
                         }
 
                     }
-                   
+                    textBox9.Invoke(new Action(() => textBox9.Text = warnning + "No signal!"));
+                    textBox6.Invoke(new Action(() => textBox6.Text = off_on + "_off!"));
                 }
-                textBox9.Invoke(new Action(() => textBox9.Text = warnning + "No signal!"));
-                textBox6.Invoke(new Action(() => textBox6.Text = off_on + "_off!"));
+                catch
+                {
+                    textBox9.Invoke(new Action(() => textBox9.Clear()));
+                    textBox6.Invoke(new Action(() => textBox6.Clear()));
+                }            
             }
             else
             {
@@ -339,37 +347,46 @@ namespace WindowsFormsApp1
                     }
                     fso.Close();
                 }
-                    
-                string[] zhongjian = from_bs_2_t.Split('/');
-                string warnning = "";
-                string off_on = "";
 
-                for (int i = 2; i < zhongjian.Length; i++)
+                try
                 {
-                    string[] zhongjian_2 = zhongjian[i].Split(',');
-                    for (int a = 0; a < zhongjian_2.Length; a++)
+                    string[] zhongjian = from_bs_2_t.Split('/');
+                    string warnning = "";
+                    string off_on = "";
+
+                    for (int i = 2; i < zhongjian.Length; i++)
                     {
-                        on_ff_warning[i - 2, a] = Convert.ToInt32(zhongjian_2[a]);
-                        if (i == 2)
+                        string[] zhongjian_2 = zhongjian[i].Split(',');
+                        for (int a = 0; a < zhongjian_2.Length; a++)
                         {
-                            if (on_ff_warning[i - 2, a] == 1)//都是闭合状态
+                            on_ff_warning[i - 2, a] = Convert.ToInt32(zhongjian_2[a]);
+                            if (i == 2)
                             {
-                                off_on += (a + 1);
-                                off_on += ";";
+                                if (on_ff_warning[i - 2, a] == 1)//都是闭合状态
+                                {
+                                    off_on += (a + 1);
+                                    off_on += ";";
+                                }
                             }
-                        }
-                        if (i == 3)
-                        {
-                            if (on_ff_warning[i - 2, a] == 0)//没有接收到信号
+                            if (i == 3)
                             {
-                                warnning += (a + 1);
-                                warnning += ";";
+                                if (on_ff_warning[i - 2, a] == 0)//没有接收到信号
+                                {
+                                    warnning += (a + 1);
+                                    warnning += ";";
+                                }
                             }
                         }
                     }
+                    textBox10.Invoke(new Action(() => textBox10.Text = warnning + "No signal!"));
+                    textBox4.Invoke(new Action(() => textBox4.Text = off_on + "_off!"));
                 }
-                textBox10.Invoke(new Action(() => textBox10.Text = warnning + "No signal!"));
-                textBox4.Invoke(new Action(() => textBox4.Text = off_on + "_off!"));
+                catch
+                {
+                    textBox10.Invoke(new Action(() => textBox10.Clear()));
+                    textBox4.Invoke(new Action(() => textBox4.Clear()));
+                }
+               
             }
             else
             {
