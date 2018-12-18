@@ -307,8 +307,7 @@ namespace WindowsFormsApp1
                        
             int changdu = from_bs_2_t.Length;
             //    textBox2.Invoke(new Action(() => textBox2.Text += changdu + "\r\n"));
-            textBox4.Invoke(new Action(() => textBox4.Clear()));
-            textBox10.Invoke(new Action(() => textBox10.Clear()));
+            
             DateTime dt = DateTime.Now;  //
             int y = 0; int yue = 0;
             int d = 0; int h = 0;
@@ -347,7 +346,8 @@ namespace WindowsFormsApp1
                     }
                     fso.Close();
                 }
-
+                textBox4.Invoke(new Action(() => textBox4.Clear()));
+                textBox10.Invoke(new Action(() => textBox10.Clear()));
                 try
                 {
                     string[] zhongjian = from_bs_2_t.Split('/');
