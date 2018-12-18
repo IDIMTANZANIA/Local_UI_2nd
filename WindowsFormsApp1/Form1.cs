@@ -198,8 +198,6 @@ namespace WindowsFormsApp1
             int changdu = from_bs_1_t.Length;
             //   textBox1.Text += changdu;
             //    textBox1.Text += "\r\n";
-            textBox6.Invoke(new Action(() => textBox6.Clear()));
-            textBox9.Invoke(new Action(() => textBox9.Clear()));
             DateTime dt = DateTime.Now;  //
             int y = 0; int yue = 0;
             int d = 0; int h = 0;
@@ -221,7 +219,8 @@ namespace WindowsFormsApp1
                 from_bs_1_t = System.Text.RegularExpressions.Regex.Replace(from_bs_1_t, "[data\r\n]", "");
 
                 textBox1.Invoke(new Action(() => textBox1.Text += from_bs_1_t + "\r\n"));
-
+                textBox6.Invoke(new Action(() => textBox6.Clear()));
+                textBox9.Invoke(new Action(() => textBox9.Clear()));
                 using (FileStream fso = new FileStream(path_ch1, FileMode.Append, FileAccess.Write, FileShare.Read))
                 {
                     using (StreamWriter swo = new StreamWriter(fso))
