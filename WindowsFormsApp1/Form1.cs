@@ -223,20 +223,10 @@ namespace WindowsFormsApp1
                 textBox9.Invoke(new Action(() => textBox9.Clear()));
                 using (FileStream fso = new FileStream(path_ch1, FileMode.Append, FileAccess.Write, FileShare.Read))
                 {
-                    using (StreamWriter swo = new StreamWriter(fso))
+                    using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
-                        swo.Write(y);   //
-                        swo.Write("-");
-                        swo.Write(yue);
-                        swo.Write("-");
-                        swo.Write(d);
-                        swo.Write("-");
-                        swo.Write(h);
-                        swo.Write(':');
-                        swo.Write(n);
-                        swo.Write('-');
-                        swo.Write(from_bs_1_t);
-                        swo.Write("\r\n");
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_1_t;
+                        swo.WriteLine(writing);
                         swo.Close();
                     }
                        
@@ -328,19 +318,10 @@ namespace WindowsFormsApp1
                 textBox2.Invoke(new Action(() => textBox2.Text += from_bs_2_t + "\r\n"));
                 using (FileStream fso = new FileStream(path_ch2, FileMode.Append, FileAccess.Write))
                 {
-                    using (StreamWriter swo = new StreamWriter(fso))
+                    using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
-                        swo.Write(y);   //
-                        swo.Write("-");
-                        swo.Write(yue);
-                        swo.Write("-");
-                        swo.Write(d);
-                        swo.Write("-");
-                        swo.Write(h);
-                        swo.Write(':');
-                        swo.Write(n);
-                        swo.Write('-');
-                        swo.WriteLine(from_bs_2_t);
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_2_t;
+                        swo.WriteLine(writing);
                         swo.Close();
                     }
                     fso.Close();
@@ -391,7 +372,7 @@ namespace WindowsFormsApp1
             {
                 using (FileStream fss = new FileStream(path_ch2_others, FileMode.Append, FileAccess.Write))
                 {
-                    using (StreamWriter sww = new StreamWriter(fss))
+                    using (StreamWriter sww = new StreamWriter(fss, Encoding.UTF8))
                     {
                         string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_2_t;
                         sww.WriteLine(writing);
@@ -421,10 +402,10 @@ namespace WindowsFormsApp1
 
             using (FileStream fso = new FileStream(environment, FileMode.Append, FileAccess.Write))
                 {
-                    using (StreamWriter swo = new StreamWriter(fso))
+                    using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
                         string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_3_t;
-                        swo.WriteLine(writing);
+                        swo.Write(writing);
                         swo.Close();
                     }
                     fso.Close();
