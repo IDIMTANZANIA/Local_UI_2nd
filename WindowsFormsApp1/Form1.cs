@@ -405,7 +405,7 @@ namespace WindowsFormsApp1
                     using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
                         string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_3_t;
-                        swo.Write(writing);
+                        swo.WriteLine(writing);
                         swo.Close();
                     }
                     fso.Close();
