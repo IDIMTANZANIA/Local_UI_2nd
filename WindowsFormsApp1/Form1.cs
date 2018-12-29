@@ -208,7 +208,7 @@ namespace WindowsFormsApp1
             h = dt.Hour;      //
             n = dt.Minute;    // tring logging;
             int[,] on_ff_warning = new int[2,34];
-            textBox1.Invoke(new Action(() => textBox1.Text += from_bs_1_t+"\r\n"));
+            textBox1.Invoke(new Action(() => textBox1.Text += from_bs_1_t));
 
             //     if (from_bs_1_t.Contains("data")&&(changdu>=chang_1)&&(from_bs_1_t.Contains("~")))
             if (from_bs_1_t.StartsWith("data") && (changdu >= chang_1) && (from_bs_1_t.EndsWith("~")))
@@ -307,7 +307,7 @@ namespace WindowsFormsApp1
             h = dt.Hour;      //
             n = dt.Minute;    // tring logging;
             int[,] on_ff_warning = new int[2, 34];
-            textBox2.Invoke(new Action(() => textBox2.Text += from_bs_2_t + "\r\n"));
+            textBox2.Invoke(new Action(() => textBox2.Text += from_bs_2_t));
 
             if (from_bs_2_t.StartsWith("data") && (changdu >= chang_1) && (from_bs_2_t.EndsWith("~")))
             {
@@ -405,7 +405,7 @@ namespace WindowsFormsApp1
                     using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
                         string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + from_bs_3_t;
-                        swo.WriteLine(writing);
+                        swo.Write(writing);
                         swo.Close();
                     }
                     fso.Close();
