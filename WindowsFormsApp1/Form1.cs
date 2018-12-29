@@ -225,7 +225,7 @@ namespace WindowsFormsApp1
                 {
                     using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
-                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_1_t;
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + from_bs_1_t;
                         swo.WriteLine(writing);
                         swo.Close();
                     }
@@ -278,8 +278,8 @@ namespace WindowsFormsApp1
                 {
                     using (StreamWriter sww = new StreamWriter(fss))
                     {
-                        string writing = y+"-"+yue+ "-"+d+ "-"+ h+ ":"+n+ "-"+from_bs_1_t;                     
-                        sww.WriteLine(writing);
+                        string writing = y+"-"+yue+ "-"+d+ "-"+ h+ ":"+n+ "~"+from_bs_1_t;                     
+                        sww.Write(writing);
                         sww.Close();
                     }
                     fss.Close();
@@ -320,7 +320,7 @@ namespace WindowsFormsApp1
                 {
                     using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
-                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_2_t;
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + from_bs_2_t;
                         swo.WriteLine(writing);
                         swo.Close();
                     }
@@ -374,8 +374,8 @@ namespace WindowsFormsApp1
                 {
                     using (StreamWriter sww = new StreamWriter(fss, Encoding.UTF8))
                     {
-                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_2_t;
-                        sww.WriteLine(writing);
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + from_bs_2_t;
+                        sww.Write(writing);
                         sww.Close();
                     }
                     fss.Close();
@@ -404,7 +404,7 @@ namespace WindowsFormsApp1
                 {
                     using (StreamWriter swo = new StreamWriter(fso, Encoding.UTF8))
                     {
-                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "-" + from_bs_3_t;
+                        string writing = y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + from_bs_3_t;
                         swo.WriteLine(writing);
                         swo.Close();
                     }
@@ -461,10 +461,11 @@ namespace WindowsFormsApp1
             d = dt.Day;       //
             h = dt.Hour;      //
             n = dt.Minute;
-            textBox5.Text +=  y + "-"+ yue + "-" + d+ "-"+h+":"+n+ "~"+record+"\r\n";
+            textBox5.Invoke(new Action(() => textBox5.Text += y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + record + "\r\n"));
+           
             if (textBox5.Text.Length>500)
             {
-                textBox5.Text = "";
+                textBox5.Invoke(new Action(() => textBox5.Clear()));
             }
         }
         private void order_record_2(string record)
@@ -478,10 +479,10 @@ namespace WindowsFormsApp1
             d = dt.Day;       //
             h = dt.Hour;      //
             n = dt.Minute;
-            textBox7.Text += y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + record + "\r\n";
+            textBox7.Invoke(new Action(() => textBox7.Text += y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + record + "\r\n"));
             if (textBox7.Text.Length > 500)
             {
-                textBox7.Text = "";
+                textBox7.Invoke(new Action(() => textBox7.Clear()));
             }
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
