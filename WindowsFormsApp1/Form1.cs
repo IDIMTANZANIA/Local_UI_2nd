@@ -22,7 +22,9 @@ namespace WindowsFormsApp1
         string path_ch1_others = "C:\\IDIM\\channel1_others_1.txt";
         string path_ch2_others = "C:\\IDIM\\channel2_others.txt";
         string environment = "C:\\IDIM\\environment.txt";
+        string korea = "C:\\IDIM\\korea.txt";
         int chang_1 = 395;
+        int initial_changdu = 0;
         public Form1()
         {
             InitializeComponent();
@@ -38,13 +40,13 @@ namespace WindowsFormsApp1
             COM3.DataReceived += new SerialDataReceivedEventHandler(COM3_DataReceived);
             Control.CheckForIllegalCrossThreadCalls = false;
             // 背景自动执行
-            /*
-            System.Timers.Timer pTimer = new System.Timers.Timer(5000);//每隔5秒执行一次，没用winfrom自带的
+           // /*
+            System.Timers.Timer pTimer = new System.Timers.Timer(100000);//每隔5秒执行一次，没用winfrom自带的
             pTimer.Elapsed += pTimer_Elapsed;//委托，要执行的方法
             pTimer.AutoReset = true;//获取该定时器自动执行
             pTimer.Enabled = true;//这个一定要写，要不然定时器不会执行的
             Control.CheckForIllegalCrossThreadCalls = false;//这个不太懂，有待研究
-            */
+          //  */
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
             //                      
@@ -76,6 +78,10 @@ namespace WindowsFormsApp1
             {
                 File.Create(environment).Close(); //创建该文件}
             }
+            if (!File.Exists(korea))
+            {
+                File.Create(korea).Close(); //创建该文件}             
+            }            
         }
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
@@ -88,13 +94,43 @@ namespace WindowsFormsApp1
         }
 
         // automatic running
-        /*
+        //  /*
+        
         private void pTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-          //  button9_Click(null, null);
-         //   button5_Click(null, null);
+            string[] lines_sensor = System.IO.File.ReadAllLines(korea);
+            int which_channel = 0;
+            if (lines_sensor.Length!=0)
+            {
+                if (initial_changdu!= lines_sensor.Length)
+                {
+                    if (lines_sensor[lines_sensor.Length-1].Contains("+"))
+                    {
+                        //eg:1+T-2-1  第一channel，第二个meter，关
+                        string [] zhong=lines_sensor[lines_sensor.Length - 1].Split('+');
+                        which_channel = Convert.ToInt32(zhong[0]);
+                        textBox12.Text = zhong[1];
+                        if ((COM1.IsOpen)&&(which_channel==1))
+                        {                   
+                            COM1.Write(zhong[1]);
+                            COM1.DiscardOutBuffer();
+                            order_record(zhong[1]);
+                        
+                        }
+                        else if ((COM2.IsOpen) && (which_channel == 2))
+                        {
+                            COM2.Write(zhong[1]);
+                            COM2.DiscardOutBuffer();
+                            order_record_2(zhong[1]);
+                        }
+                    
+                    }
+                }                
+            }
+            GC.Collect();
+            initial_changdu = lines_sensor.Length;
         }
-        */
+     //   */
         // Serial communication options
         private void button2_Click(object sender, EventArgs e)
         {
@@ -443,6 +479,18 @@ namespace WindowsFormsApp1
                 order_record_2(output);
             }
         }
+        private void Control_3_Click(object sender, EventArgs e)
+        {
+            if (COM3.IsOpen)
+            {
+                string output;
+                output = textBox16.Text;
+                COM3.Write(output);
+                textBox16.Text = "";
+                COM3.DiscardOutBuffer();
+                order_record_3(output);
+            }
+        }
         // kill all
         private void kill_all_Click(object sender, EventArgs e)
         {
@@ -485,6 +533,23 @@ namespace WindowsFormsApp1
                 textBox7.Invoke(new Action(() => textBox7.Clear()));
             }
         }
+        private void order_record_3(string record)
+        {
+            DateTime dt = DateTime.Now;  //
+            int y = 0; int yue = 0;
+            int d = 0; int h = 0;
+            int n = 0;
+            y = dt.Year;      //
+            yue = dt.Month;     //
+            d = dt.Day;       //
+            h = dt.Hour;      //
+            n = dt.Minute;
+            textBox15.Invoke(new Action(() => textBox15.Text += y + "-" + yue + "-" + d + "-" + h + ":" + n + "~" + record + "\r\n"));
+            if (textBox15.Text.Length > 500)
+            {
+                textBox15.Invoke(new Action(() => textBox15.Clear()));
+            }
+        }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             textBox1.SelectionStart = textBox1.Text.Length;
@@ -495,12 +560,13 @@ namespace WindowsFormsApp1
             textBox2.SelectionStart = textBox2.Text.Length;
             textBox2.ScrollToCaret();
         }
-
         private void textBox11_TextChanged(object sender, EventArgs e)
         {
             textBox11.SelectionStart = textBox11.Text.Length;
             textBox11.ScrollToCaret();
         }
+
+        
     }
 
 }
